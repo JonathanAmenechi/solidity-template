@@ -1,11 +1,9 @@
 import "@nomiclabs/hardhat-waffle";
+import "hardhat-deploy";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-import "./tasks/accounts";
-import "./tasks/clean";
-import "./tasks/deploy";
 
 import { resolve } from "path";
 
@@ -52,8 +50,7 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   gasReporter: {
     currency: "USD",
-    enabled: process.env.REPORT_GAS ? true : false,
-    excludeContracts: [],
+    excludeContracts: ["TestToken", "Test721"],
     src: "./contracts",
   },
   networks: {
@@ -62,6 +59,7 @@ const config: HardhatUserConfig = {
         mnemonic,
       },
       chainId: chainIds.hardhat,
+      saveDeployments: false,
     },
     goerli: getChainConfig("goerli"),
     kovan: getChainConfig("kovan"),
@@ -75,7 +73,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.7",
+    version: "0.8.0",
     settings: {
       metadata: {
         // Not including the metadata hash
@@ -86,7 +84,7 @@ const config: HardhatUserConfig = {
       // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
-        runs: 800,
+        runs: 200,
       },
     },
   },
